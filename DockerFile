@@ -1,0 +1,31 @@
+ARG BASE_IMAGE
+FROM $BASE_IMAGE as build-stage
+
+COPY update.sh .
+RUN ./update.sh
+
+COPY install_deps.sh .
+RUN ./install_deps.sh
+
+ARG PROJ_NAME
+RUN mkdir -p /tmp/$PROJ_NAME
+
+ADD ./$PROJ_NAME /tmp/$PROJ_NAME
+
+WORKDIR /tmp/$PROJ_NAME
+
+COPY configure.sh .
+RUN ./configure.sh
+
+COPY build.sh .
+RUN ./build.sh
+
+RUN mkdir -p AppDir/usr/share/applications
+RUN mkdir -p AppDir/usr/share/icons
+
+COPY PROJ_NAME.desktop AppDir/usr/share/applications/$PROJ_NAME.desktop
+RUN sed -i "s/<PROJ_NAME>/$PROJ_NAME/g" AppDir/usr/share/applications/$PROJ_NAME.desktop
+COPY PROJ_NAME.svg AppDir/usr/share/icons/$PROJ_NAME.svg
+
+COPY appimage.sh .
+RUN ./appimage.sh $PROJ_NAME

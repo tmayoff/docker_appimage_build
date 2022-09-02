@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Categories=Utility
+Type=Application
+Terminal=true
+Exec=<EXEC_NAME>
+Name=<PROJ_NAME>
+Icon=<PROJ_NAME>
