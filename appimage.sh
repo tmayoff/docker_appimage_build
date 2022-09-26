@@ -10,4 +10,4 @@ chmod +x linuxdeploy-x86_64.AppImage
 ./linuxdeploy-x86_64.AppImage --appimage-extract
 cd $WORKDIR
 
-OUTPUT=$PROJ_NAME.AppImage $WORKDIR/linuxdeploy/squashfs-root/AppRun --appdir $WORKDIR/AppDir --output appimage
+OUTPUT=out.AppImage $WORKDIR/linuxdeploy/squashfs-root/AppRun --appdir $WORKDIR/build/AppDir --output appimage

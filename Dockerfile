@@ -20,8 +20,13 @@ RUN ./configure.sh
 COPY build.sh .
 RUN ./build.sh
 
-RUN mkdir -p AppDir/usr/share/applications
-RUN mkdir -p AppDir/usr/share/icons
+COPY install.sh .
+RUN ./install.sh
+
+RUN mkdir -p build/AppDir/usr/share/applications
+RUN mkdir -p build/AppDir/usr/share/icons
+RUN mkdir -p build/AppDir/usr/bin
+RUN mkdir -p build/AppDir/usr/lib
 
 COPY PROJ_NAME.desktop AppDir/usr/share/applications/$PROJ_NAME.desktop
 RUN sed -i "s/<PROJ_NAME>/$PROJ_NAME/g" AppDir/usr/share/applications/$PROJ_NAME.desktop
@@ -29,3 +34,10 @@ COPY PROJ_NAME.svg AppDir/usr/share/icons/$PROJ_NAME.svg
 
 COPY appimage.sh .
 RUN ./appimage.sh $PROJ_NAME
+
+COPY extract.sh .
+ENTRYPOINT ./extract.sh
+
+# FROM scratch as export-stage
+# ARG PROJ_NAME
+# COPY --from=build-stage /tmp/$PROJ_NAME/out.AppImage .

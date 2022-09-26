@@ -1,0 +1,1 @@
+cp out.AppImage /mnt/out

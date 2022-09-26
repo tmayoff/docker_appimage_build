@@ -2,4 +2,4 @@
 
 deps=("wget" "git")
 
-apt-get -y install $deps
+pip3 install "${pip_deps[@]}"
